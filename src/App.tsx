@@ -13,19 +13,25 @@ const App = ()=> {
 
 
   return (
-    <>
-      <div className="w-screen h-screen grid overflow-auto bg-[#191919]">
-        <div className="flex flex-row w-full">
-          <div className="flex-1 min-w-96">
-            <PhtotoView photo={getPhoto ?? null} />
-            <Dump gridData={arrayData} />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-1/3 space-y-6">
+            <div className="bg-gray-800/50 rounded-xl shadow-xl backdrop-blur-sm">
+              <PhtotoView photo={getPhoto ?? null} />
+            </div>
+            <div className="bg-gray-800/50 rounded-xl shadow-xl backdrop-blur-sm p-4">
+              <Dump gridData={arrayData} />
+            </div>
           </div>
-          <div className="flex-2">
-            <PhotoList onPhotoClicked={setPhoto} />
+          <div className="lg:w-2/3">
+            <div className="bg-gray-800/50 rounded-xl shadow-xl backdrop-blur-sm">
+              <PhotoList onPhotoClicked={setPhoto} />
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
