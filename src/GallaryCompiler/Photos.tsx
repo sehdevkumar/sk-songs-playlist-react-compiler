@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import { Photo } from "./types"; // Adjust path to your types file
+import { Photo } from "../types"; // Adjust path to your types file
 
 const PhotoList = ({
   onPhotoClicked,
 }: {
   onPhotoClicked: (arg: Photo) => void;
 }) => {
-  console.log("I should not rendered");
-
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -35,7 +33,7 @@ const PhotoList = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        Loading...
       </div>
     );
   }
@@ -49,34 +47,28 @@ const PhotoList = ({
         {photos.map((photo) => (
           <div
             key={photo.id}
-            className="group bg-gray-800/40 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-out transform hover:-translate-y-1 backdrop-blur-sm"
+            className="bg-gray-800/40 rounded-xl shadow-lg cursor-pointer"
             onClick={() => {
               if (onPhotoClicked) {
                 onPhotoClicked(photo);
               }
             }}
           >
-            <div className="relative overflow-hidden rounded-t-xl">
-              <img
-                src={photo.thumbnailUrl}
-                alt={photo.title}
-                className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
+            <img
+              src={photo.thumbnailUrl}
+              alt={photo.title}
+              className="w-full h-48 object-cover"
+            />
             <div className="p-4">
               <h2 className="text-lg font-semibold text-white line-clamp-2 mb-2">{photo.title}</h2>
               <a
                 href={photo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-sm text-blue-400 hover:text-blue-300 transition-colors"
+                className="inline-flex items-center text-sm text-blue-400"
                 onClick={(e) => e.stopPropagation()}
               >
                 <span>View Full Image</span>
-                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
               </a>
             </div>
           </div>
