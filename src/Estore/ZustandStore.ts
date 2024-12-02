@@ -15,7 +15,7 @@ export type Product = {
 };
 
 export type Cart = {
-    items: Product[];
+    items: Array<Product &  {total_price?: number} >;
     total: number;
 };
 
@@ -78,7 +78,17 @@ const useStore = create<Store>((set) => ({
     addToCart: (product) =>
         set((state) => ({
             cart: {
-                items: [...state.cart.items, product],
+                items: (()=>{
+                    const existingItem = state.cart.items.find((item) => item.id === product.id);
+                    if (existingItem) {
+                        return state.cart.items.map((item) =>
+                            item.id === product.id
+                                ? { ...item, total_price: item?.total_price || 0 + product?.price, quantity:    item.quantity + 1 }
+                                : item
+                        );
+                    }
+                    return [...state.cart.items, { ...product, total_price: product.price, quantity: 1 }];
+                })(),
                 total: state.cart.total + product.price,
             },
         })),
